@@ -14,7 +14,7 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
     "sync-changelog": "node scripts/sync-changelog.mjs",
-    "pages:deploy": "npm run build && wrangler pages deploy ./build --project-name=betterclip-docs --branch=main"
+    "pages:deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@docusaurus/core": "3.10.1",

@@ -22,12 +22,14 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      CLIP_REPO_TOKEN: ${{ secrets.CLIP_REPO_TOKEN }}
     steps:
       - name: Checkout docs
         uses: actions/checkout@v4
 
       - name: Checkout CeaQuickerTools release-notes
-        if: ${{ secrets.CLIP_REPO_TOKEN != '' }}
+        if: env.CLIP_REPO_TOKEN != ''
         uses: actions/checkout@v4
         with:
           repository: ceastld/CeaQuickerTools
@@ -37,13 +39,13 @@ jobs:
           sparse-checkout-cone-mode: true
 
       - name: Setup Node.js
-        if: ${{ secrets.CLIP_REPO_TOKEN != '' }}
+        if: env.CLIP_REPO_TOKEN != ''
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
       - name: Sync changelog
-        if: ${{ secrets.CLIP_REPO_TOKEN != '' }}
+        if: env.CLIP_REPO_TOKEN != ''
         env:
           MIN_SERIES: ${{ github.event.inputs.min_series || '0.30' }}
         run: |
@@ -53,7 +55,7 @@ jobs:
             --min-series "$MIN_SERIES"
 
       - name: Commit if changed
-        if: ${{ secrets.CLIP_REPO_TOKEN != '' }}
+        if: env.CLIP_REPO_TOKEN != ''
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -66,7 +68,7 @@ jobs:
           git push
 
       - name: Skip (missing CLIP_REPO_TOKEN)
-        if: ${{ secrets.CLIP_REPO_TOKEN == '' }}
+        if: env.CLIP_REPO_TOKEN == ''
         run: |
           echo "CLIP_REPO_TOKEN is not set."
           echo "Preferred path: CeaQuickerTools Release workflow pushes changelog (secret DOCS_REPO_TOKEN)."

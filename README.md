@@ -29,18 +29,17 @@ npm run build
 
 产物在 `build/`。
 
-## 发布（Cloudflare Pages）
+## 发布（Cloudflare Workers）
 
-推送 `main` 后由 GitHub Actions 构建并 `wrangler pages deploy`（需仓库 Secrets）。**不要**使用 `npm run deploy`（那是 GitHub Pages）。
+本站当前通过 **Cloudflare Workers**（静态资源 + Workers Builds）发布，地址形如 `https://betterclip-docs.<账号>.workers.dev`。推送 `main` 后由 Cloudflare Git 集成构建；也可由 GitHub Actions `wrangler deploy`（需 Secrets）。
 
 | 项 | 值 |
 |----|-----|
 | 框架 | Docusaurus |
 | 构建命令 | `npm run build` |
-| 输出目录 | `build` |
+| 静态资源目录 | `build`（`wrangler.jsonc` → `assets.directory`） |
 | 生产分支 | `main` |
 | Node | 22 |
-| 生产地址 | https://betterclip-docs.pages.dev |
 
 ### 本机直接上传
 
@@ -48,6 +47,18 @@ npm run build
 npm run pages:deploy
 ```
 
+（脚本名历史遗留，实际执行 `wrangler deploy`。）
+
+### Cloudflare 控制台 Build 设置（Workers Builds）
+
+若 Git 集成构建失败，请确认：
+
+| 项 | 建议值 |
+|----|--------|
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Root directory | `/`（空） |
+| Node version | `22` |
 ### 更新记录如何进站
 
 产品仓 `ceastld/CeaQuickerTools` 的 `release-notes/vX.Y.Z.md` 是源。发版后：

@@ -3,5 +3,10 @@
   "name": "betterclip-docs",
   "account_id": "4854fbdb97272c4e1d739db8d96ddfc3",
   "compatibility_date": "2026-08-13",
-  "pages_build_output_dir": "./build"
+  // Cloudflare Workers Builds (not Pages): serve Docusaurus output as static assets.
+  // Do not use pages_build_output_dir here — that marks the project as Pages and breaks Workers deploy.
+  "assets": {
+    "directory": "./build",
+    "not_found_handling": "404-page"
+  }
 }
