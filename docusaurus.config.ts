@@ -21,7 +21,7 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://betterclip-docs.liud0519.workers.dev',
+  url: 'https://betterclip-docs.pages.dev',
   baseUrl: '/',
 
   organizationName: 'ceastld',
