@@ -2,8 +2,9 @@
 
 BetterClip（Windows 剪贴板管理器）的用户文档，使用 [Docusaurus](https://docusaurus.io/) 生成静态站点。
 
+**文档网站：** https://betterclip-docs.liud0519.workers.dev/
+
 - GitHub：https://github.com/ceastld/betterclip-docs
-- 生产预览：https://betterclip-docs.pages.dev（Cloudflare Pages，连接仓库后可用）
 
 产品源码在 [ceastld/CeaQuickerTools](https://github.com/ceastld/CeaQuickerTools)；本仓只放面向最终用户的 Markdown。
 
@@ -31,7 +32,7 @@ npm run build
 
 ## 发布（Cloudflare Workers）
 
-本站当前通过 **Cloudflare Workers**（静态资源 + Workers Builds）发布，地址形如 `https://betterclip-docs.<账号>.workers.dev`。推送 `main` 后由 Cloudflare Git 集成构建；也可由 GitHub Actions `wrangler deploy`（需 Secrets）。
+本站当前通过 **Cloudflare Workers**（静态资源 + Workers Builds）发布：https://betterclip-docs.liud0519.workers.dev/ 。推送 `main` 后由 Cloudflare Git 集成构建；也可由 GitHub Actions `wrangler deploy`（需 Secrets）。
 
 | 项 | 值 |
 |----|-----|
