@@ -4,6 +4,8 @@ description: 收藏页、从剪贴板收藏与分类排序
 sidebar_position: 5
 ---
 
+import FavoriteAddPreview from '@site/src/components/FavoriteAddPreview';
+
 # 收藏
 
 把常用文本、图片、文件、链接等收进收藏，方便反复粘贴或在超级面板中整理。
@@ -24,6 +26,8 @@ sidebar_position: 5
 ## 从剪贴板收藏
 
 在剪贴板历史条目上右键选择 **收藏**。成功后通常有「已收藏」提示，并可能弹出收录对话框，用于选择目标收藏夹、标题与内容摘要后确认。
+
+<FavoriteAddPreview />
 
 ## 添加菜单
 

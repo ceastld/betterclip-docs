@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import {useCallback, useEffect, useRef, type ReactNode} from 'react';
 import './clip-ui.css';
 
 export type ClipPreviewCaptionProps = {
@@ -101,18 +101,40 @@ export const SAMPLE_CLIPS: SampleItem[] = [
   },
 ];
 
+export function highlightQuery(text: string, query: string): ReactNode {
+  const q = query.trim();
+  if (!q) {
+    return text;
+  }
+  const index = text.toLowerCase().indexOf(q.toLowerCase());
+  if (index < 0) {
+    return text;
+  }
+  return (
+    <>
+      {text.slice(0, index)}
+      <mark className="bc-preview-hit">{text.slice(index, index + q.length)}</mark>
+      {text.slice(index + q.length)}
+    </>
+  );
+}
+
 export function ClipPreviewItem({
   item,
   selected,
   onSelect,
+  query,
+  dimmed,
 }: {
   item: SampleItem;
   selected: boolean;
   onSelect?: (id: string) => void;
+  query?: string;
+  dimmed?: boolean;
 }): ReactNode {
   return (
     <div
-      className={`item${item.pinned ? ' item-top' : ''}${selected ? ' item-selected' : ''}`}
+      className={`item${item.pinned ? ' item-top' : ''}${selected ? ' item-selected' : ''}${dimmed ? ' is-dimmed' : ''}`}
       onClick={() => onSelect?.(item.id)}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -120,9 +142,9 @@ export function ClipPreviewItem({
           onSelect?.(item.id);
         }
       }}
-        role={onSelect ? 'option' : undefined}
-        aria-selected={onSelect ? selected : undefined}
-        tabIndex={onSelect ? 0 : undefined}>
+      role={onSelect ? 'option' : undefined}
+      aria-selected={onSelect ? selected : undefined}
+      tabIndex={onSelect ? 0 : undefined}>
       <div className="item-header">
         <div className="item-title-wrap">
           <span className="item-index">{item.index}</span>
@@ -133,12 +155,84 @@ export function ClipPreviewItem({
         {item.category === 'image' ? (
           <div className="item-image-ph" aria-hidden />
         ) : item.category === 'file' ? (
-          <span className="item-file-chip">{item.text}</span>
+          <span className="item-file-chip">{highlightQuery(item.text, query ?? '')}</span>
         ) : (
-          <div className="primary-text">{item.text}</div>
+          <div className="primary-text">{highlightQuery(item.text, query ?? '')}</div>
         )}
         <span className="kind kind--item-float">{item.kind}</span>
       </div>
     </div>
   );
+}
+
+export function ClipPreviewSearchBar({
+  value,
+  placeholder = '搜索历史内容',
+}: {
+  value: string;
+  placeholder?: string;
+}): ReactNode {
+  return (
+    <div className="toolbar-clipboard-search">
+      <input
+        className="filterbox-input"
+        value={value}
+        placeholder={placeholder}
+        readOnly
+        aria-label="搜索示意"
+      />
+    </div>
+  );
+}
+
+export function ClipPreviewKeyHint({label}: {label: string | null}): ReactNode {
+  if (!label) {
+    return null;
+  }
+  return (
+    <span className="bc-preview-key" aria-hidden>
+      {label}
+    </span>
+  );
+}
+
+export type PreviewScheduler = (ms: number, fn: () => void) => void;
+
+/**
+ * Runs a scripted docs preview. Skips autoplay when the user prefers reduced motion.
+ */
+export function usePreviewPlayback(play: (schedule: PreviewScheduler) => void): {replay: () => void} {
+  const timers = useRef<number[]>([]);
+  const playRef = useRef(play);
+  playRef.current = play;
+
+  const clear = useCallback(() => {
+    for (const id of timers.current) {
+      window.clearTimeout(id);
+    }
+    timers.current = [];
+  }, []);
+
+  const replay = useCallback(() => {
+    clear();
+    const reduced =
+      typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      playRef.current((_ms, fn) => {
+        fn();
+      });
+      return;
+    }
+    const schedule: PreviewScheduler = (ms, fn) => {
+      timers.current.push(window.setTimeout(fn, ms));
+    };
+    playRef.current(schedule);
+  }, [clear]);
+
+  useEffect(() => {
+    replay();
+    return clear;
+  }, [replay, clear]);
+
+  return {replay};
 }

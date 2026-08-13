@@ -5,6 +5,9 @@ sidebar_position: 4
 ---
 
 import ClipboardWindowPreview from '@site/src/components/ClipboardWindowPreview';
+import DragOutPreview from '@site/src/components/DragOutPreview';
+import MultiSelectPastePreview from '@site/src/components/MultiSelectPastePreview';
+import SearchNumberPastePreview from '@site/src/components/SearchNumberPastePreview';
 
 # 剪贴板历史
 
@@ -16,7 +19,13 @@ import ClipboardWindowPreview from '@site/src/components/ClipboardWindowPreview'
 
 列表上方常见分类（以界面为准）：**默认**、**星标**、**文本**、**图片**、**文件** 等。若开启「单独显示置顶项」，还可能出现 **置顶** 分栏；也可按**来源进程**筛选。
 
-支持搜索历史内容。标题栏可暂停/恢复剪贴板采集（避免某段时间的复制写入历史）。
+支持搜索历史内容。在列表未处于输入框时，直接按字母会写入搜索框；**Ctrl+F** 会把焦点放到搜索框。标题栏可暂停/恢复剪贴板采集（避免某段时间的复制写入历史）。
+
+## 数字键粘贴与搜索
+
+可开启 **使用数字键进行粘贴**（设置 → 剪贴板）。搜索框为空时，数字键对应当前可见列表的序号：**1–9** 为第 1–9 项，**0** 为第 10 项。正在搜索时，数字会当作搜索内容，而不是粘贴。
+
+<SearchNumberPastePreview />
 
 ## 筛选
 
@@ -57,7 +66,18 @@ import ClipboardWindowPreview from '@site/src/components/ClipboardWindowPreview'
 | **Snipaste贴图** / **PixPin贴图** | 需本机已安装对应软件 |
 | **定位文件** / **定位文件夹** | 针对文件类条目 |
 
-多选时可能出现浮层：**顺序粘贴**、**逆序粘贴**、**取消选择**。
+多选时可能出现浮层：**顺序粘贴**（A）、**逆序粘贴**（B）、**取消选择**（C）。
+
+- **Ctrl** + 单击：逐条加选 / 取消
+- **Shift** + 单击：选中从锚点到当前项的范围
+
+<MultiSelectPastePreview />
+
+## 拖出文件或图片
+
+文件、图片条目可以从列表拖到资源管理器等窗口，在目标位置得到一份副本（不经过「先复制再粘贴」）。拖放能力在部分环境下依赖本机与 Quicker 相关增强。
+
+<DragOutPreview />
 
 ## 底栏
 

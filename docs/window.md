@@ -5,10 +5,16 @@ sidebar_position: 7
 ---
 
 import DismissModePreview from '@site/src/components/DismissModePreview';
+import NoFocusPreview from '@site/src/components/NoFocusPreview';
+import WindowTogglePreview from '@site/src/components/WindowTogglePreview';
 
 # 窗口行为
 
 剪贴板窗口如何在失焦后「消失」，以及是否抢占前台焦点，可在设置中调整。几种消失方式**互不混用**；选哪一种以你在界面中的选择为准（本文不规定产品默认值）。
+
+全局热键 **显示/隐藏剪贴板窗口**（在 **设置 → 个性化** 中配置）用于打开或收起窗口：未显示则打开；已打开但不在前台则激活；已在前台则收起。具体组合以你保存的为准。
+
+<WindowTogglePreview />
 
 ## 窗口失焦行为
 
@@ -27,6 +33,8 @@ import DismissModePreview from '@site/src/components/DismissModePreview';
 ## 无焦点模式
 
 开启 **无焦点模式** 后，可在不抢占前台应用焦点的情况下操作剪贴板列表与部分快捷键。需要输入法搜索时，界面可能提供进入正常焦点的方式（以软件说明为准）；关闭窗口再打开通常可恢复无焦点钩子。
+
+<NoFocusPreview />
 
 ## 打开位置
 

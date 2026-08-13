@@ -4,6 +4,7 @@ description: 粘贴方式、便捷粘贴会话与连续粘贴（先进先出）
 sidebar_position: 6
 ---
 
+import FifoPastePreview from '@site/src/components/FifoPastePreview';
 import QuickPastePreview from '@site/src/components/QuickPastePreview';
 
 # 粘贴与便捷粘贴
@@ -13,6 +14,7 @@ import QuickPastePreview from '@site/src/components/QuickPastePreview';
 ## 在列表中粘贴
 
 - 按 **列表项粘贴触发方式** 单击或双击条目（在列表常用设置或 **设置 → 剪贴板** 中配置）
+- 方向键选择条目后，可按 **Enter** 粘贴（以当前焦点为准）
 - 右键可选 **粘贴**、**规范粘贴**、**纯文本粘贴**
 - 多选后可 **按选择顺序粘贴** / **逆序粘贴**
 - 可开启 **使用数字键进行粘贴**：在合适焦点条件下用数字键对应列表序号
@@ -48,6 +50,8 @@ import QuickPastePreview from '@site/src/components/QuickPastePreview';
 3. 确认后点 **开始**（或 **取消**）
 
 也可在便捷粘贴会话中按 **Q** 武装连续粘贴队列。队列相关参数在 **设置 → 便捷粘贴 → 连续粘贴** 分组中调整。
+
+<FifoPastePreview />
 
 ## 相关页面
 
