@@ -1,0 +1,528 @@
+/**
+ * Sliced BetterClip (ClipHost) tokens + list chrome for docs previews.
+ * Source: clip/main/IntelliTools.Frontend/src/ui/app.css
+ * Scoped under .bc-preview so Infima is not polluted.
+ */
+
+.bc-preview {
+  --bg-page: #f5f7fb;
+  --text-primary: #1a1f2b;
+  --text-secondary: #3a4358;
+  --text-muted: #5d6983;
+  --surface-primary: #ffffff;
+  --surface-secondary: #f3f5fa;
+  --surface-tertiary: #e9edf6;
+  --border-primary: #d7deeb;
+  --border-secondary: #bcc7dc;
+  --border-accent: #3e7cf0;
+  --accent-top: #d2a11f;
+  --scrollbar-thumb: #9aa7c1;
+  --clip-host-title-bar-height: 36px;
+  font-family:
+    "Microsoft YaHei UI",
+    "PingFang SC",
+    "Noto Sans CJK SC",
+    system-ui,
+    sans-serif;
+  color: var(--text-primary);
+}
+
+html[data-theme="dark"] .bc-preview {
+  --bg-page: #1b1b1b;
+  --text-primary: #f4f4f4;
+  --text-secondary: #c8c8c8;
+  --text-muted: #bcbcbc;
+  --surface-primary: #262626;
+  --surface-secondary: #2a2a2a;
+  --surface-tertiary: #343434;
+  --border-primary: #3f3f3f;
+  --border-secondary: #5b5b5b;
+  --border-accent: #66a4ff;
+  --accent-top: #f0c94c;
+  --scrollbar-thumb: #5f5f5f;
+}
+
+.bc-preview-caption {
+  margin: 0.45rem 0 0;
+  color: var(--bc-text-muted, #5f6b7a);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+html[data-theme="dark"] .bc-preview-caption {
+  color: var(--bc-text-muted, #a7b2c0);
+}
+
+.bc-preview-window {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--bg-page);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  box-shadow:
+    0 10px 28px color-mix(in srgb, var(--text-primary) 10%, transparent 90%),
+    0 0 0 1px color-mix(in srgb, var(--border-primary) 70%, transparent);
+}
+
+.bc-preview .clip-host-titlebar {
+  flex: 0 0 var(--clip-host-title-bar-height);
+  height: var(--clip-host-title-bar-height);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr) max-content;
+  align-items: center;
+  padding: 0 8px;
+  gap: 6px;
+  user-select: none;
+  background: color-mix(in srgb, var(--surface-primary) 88%, transparent);
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.bc-preview .clip-host-titlebar-left,
+.bc-preview .clip-host-titlebar-center,
+.bc-preview .clip-host-titlebar-right {
+  display: flex;
+  align-items: center;
+}
+
+.bc-preview .clip-host-titlebar-nav {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.bc-preview .clip-host-titlebar-nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 0 7px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.bc-preview .clip-host-titlebar-nav-link.is-active {
+  color: color-mix(in srgb, var(--text-secondary) 88%, var(--text-primary) 12%);
+  border-color: color-mix(in srgb, var(--border-secondary) 58%, transparent);
+  background: color-mix(in srgb, var(--surface-tertiary) 16%, transparent 84%);
+}
+
+.bc-preview .clip-host-titlebar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: default;
+  line-height: 0;
+}
+
+.bc-preview .clip-host-titlebar-btn svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.bc-preview-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  padding: 8px 10px 0;
+  background: var(--bg-page);
+}
+
+.bc-preview .toolbar-categories {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  margin-bottom: 6px;
+}
+
+.bc-preview .category-tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.bc-preview .category-tabs button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  box-sizing: border-box;
+  border: 1px solid color-mix(in srgb, var(--border-secondary) 52%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface-tertiary) 48%, transparent 52%);
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.bc-preview .category-tabs button.is-active {
+  border-color: color-mix(in srgb, var(--border-accent) 42%, var(--border-secondary));
+  background: color-mix(in srgb, var(--surface-tertiary) 82%, var(--border-accent) 18%);
+  color: var(--text-primary);
+}
+
+.bc-preview .list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
+.bc-preview .item {
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  padding: 5px 8px;
+  margin-bottom: 4px;
+  background: var(--surface-primary);
+  overflow: visible;
+  position: relative;
+  cursor: pointer;
+}
+
+.bc-preview .item-top {
+  border-color: var(--accent-top);
+}
+
+.bc-preview .item-selected {
+  z-index: 1;
+  border-color: color-mix(in srgb, var(--border-accent) 58%, var(--border-primary) 42%);
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--surface-primary) 70%, var(--border-accent) 30%) 0%,
+    color-mix(in srgb, var(--surface-primary) 90%, var(--border-accent) 10%) 100%
+  );
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--border-accent) 26%, transparent 74%),
+    0 2px 8px color-mix(in srgb, var(--text-primary) 6%, transparent 94%);
+}
+
+.bc-preview .item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.bc-preview .item-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 80px;
+  flex: 1;
+}
+
+.bc-preview .item-index {
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--surface-tertiary) 78%, transparent 22%);
+  border: 1px solid color-mix(in srgb, var(--border-secondary) 65%, transparent 35%);
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1;
+  min-width: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 4px;
+}
+
+.bc-preview .item-title {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.bc-preview .item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  padding-bottom: 14px;
+}
+
+.bc-preview .primary-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.45;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.bc-preview .kind {
+  color: var(--text-muted);
+  font-size: 12px;
+  border: 1px solid color-mix(in srgb, var(--border-secondary) 65%, transparent 35%);
+  background: color-mix(in srgb, var(--surface-tertiary) 78%, transparent 22%);
+  border-radius: 999px;
+  padding: 1px 7px;
+  line-height: 1.2;
+}
+
+.bc-preview .kind.kind--item-float {
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+  font-size: 10px;
+  padding: 1px 6px;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--surface-primary) 55%, transparent 45%);
+}
+
+.bc-preview .item-file-chip {
+  max-width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid color-mix(in srgb, var(--border-secondary) 60%, transparent 40%);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface-tertiary) 75%, transparent 25%);
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.3;
+  padding: 2px 6px;
+}
+
+.bc-preview .item-image-ph {
+  width: 100%;
+  height: 72px;
+  border: 1px solid var(--border-primary);
+  border-radius: 6px;
+  background:
+    repeating-conic-gradient(
+      color-mix(in srgb, var(--surface-tertiary) 55%, var(--border-primary) 45%) 0deg 25%,
+      var(--surface-secondary) 0deg 50%
+    )
+    50% / 16px 16px;
+}
+
+.bc-preview .toolbar.app-bottom-toolbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: auto -10px 0;
+  width: calc(100% + 20px);
+  padding: 6px 10px;
+  border-top: 1px solid var(--border-primary);
+  box-sizing: border-box;
+}
+
+.bc-preview .app-bottom-toolbar-list-stats {
+  display: inline-flex;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.bc-preview .app-bottom-toolbar-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.bc-preview .app-bottom-toolbar-actions button {
+  min-height: 26px;
+  padding: 3px 8px;
+  border: 1px solid color-mix(in srgb, var(--border-secondary) 52%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface-tertiary) 48%, transparent 52%);
+  color: var(--text-secondary);
+  font-size: 11px;
+  cursor: default;
+}
+
+.bc-preview-desktop {
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+  border: 1px solid var(--border-primary);
+  border-radius: 10px;
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--surface-secondary) 70%, var(--border-accent) 8%) 0%,
+      var(--surface-secondary) 55%,
+      var(--bg-page) 100%
+    );
+}
+
+.bc-preview-app {
+  position: absolute;
+  left: 16px;
+  top: 18px;
+  width: min(42%, 220px);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-primary);
+  background: var(--surface-primary);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--text-primary) 8%, transparent);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.bc-preview-app strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.bc-preview-app .caret {
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+  margin-left: 1px;
+  background: var(--border-accent);
+  animation: bc-caret 1s steps(1) infinite;
+}
+
+@keyframes bc-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.bc-preview-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.bc-preview-controls button {
+  min-height: 28px;
+  padding: 4px 10px;
+  border: 1px solid var(--bc-border-subtle, #e4e9f0);
+  border-radius: 6px;
+  background: var(--bc-surface-subtle, #f7f9fb);
+  color: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+html[data-theme="dark"] .bc-preview-controls button {
+  border-color: #2a3644;
+  background: #18212b;
+}
+
+.bc-preview-controls button.is-active {
+  border-color: color-mix(in srgb, #3e7cf0 42%, #bcc7dc);
+  background: color-mix(in srgb, #e9edf6 70%, #3e7cf0 18%);
+  font-weight: 600;
+}
+
+html[data-theme="dark"] .bc-preview-controls button.is-active {
+  border-color: color-mix(in srgb, #66a4ff 42%, #5b5b5b);
+  background: color-mix(in srgb, #343434 70%, #66a4ff 18%);
+}
+
+.bc-preview-window.is-hidden {
+  opacity: 0;
+  transform: scale(0.98) translateY(6px);
+  pointer-events: none;
+}
+
+.bc-preview-window.is-edge {
+  transform: translateX(calc(100% - 7px));
+}
+
+.bc-preview-window.is-folded {
+  height: 36px !important;
+}
+
+.bc-preview-window.is-animating {
+  transition:
+    opacity 0.45s ease,
+    transform 0.5s ease,
+    height 0.45s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-preview-window.is-animating,
+  .bc-preview-app .caret {
+    animation: none;
+    transition: none;
+  }
+}
+
+.bc-preview-qp {
+  position: absolute;
+  width: 240px;
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid var(--border-primary);
+  background: color-mix(in srgb, var(--surface-primary) 92%, transparent);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--text-primary) 16%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.bc-preview-qp-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.bc-preview-qp-row.is-active {
+  background: color-mix(in srgb, var(--surface-primary) 70%, var(--border-accent) 30%);
+}
+
+.bc-preview-qp-num {
+  flex: 0 0 18px;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.bc-preview-qp-hint {
+  margin-top: 6px;
+  padding: 4px 6px;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.bc-preview-toast {
+  width: min(320px, 100%);
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-primary);
+  background: color-mix(in srgb, var(--surface-primary) 94%, transparent);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--text-primary) 12%, transparent);
+}
+
+.bc-preview-toast-label {
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}

@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "betterclip-docs",
+  "account_id": "4854fbdb97272c4e1d739db8d96ddfc3",
   "compatibility_date": "2026-08-13",
   "pages_build_output_dir": "./build"
 }

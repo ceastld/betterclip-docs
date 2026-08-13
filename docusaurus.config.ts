@@ -98,7 +98,8 @@ const config: Config = {
       style: 'light',
       links: [
         {label: '简介', to: '/'},
-        {label: '功能介绍', to: '/features'},
+        {label: '快速开始', to: '/getting-started'},
+        {label: '功能总览', to: '/features'},
         {label: '更新记录', to: '/changelog'},
         {
           label: 'GitHub',

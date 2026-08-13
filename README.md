@@ -31,20 +31,39 @@ npm run build
 
 ## 发布（Cloudflare Pages）
 
-推送 `main` 后由 Cloudflare Pages 自动构建，**不要**使用 `npm run deploy`。
-
-控制台新建 Pages 项目并连接本仓库时填写：
+推送 `main` 后由 GitHub Actions 构建并 `wrangler pages deploy`（需仓库 Secrets）。**不要**使用 `npm run deploy`（那是 GitHub Pages）。
 
 | 项 | 值 |
 |----|-----|
-| 框架预设 | Docusaurus |
+| 框架 | Docusaurus |
 | 构建命令 | `npm run build` |
 | 输出目录 | `build` |
-| 根目录 | （空） |
 | 生产分支 | `main` |
-| Node 版本 | 20 或 22 |
+| Node | 22 |
+| 生产地址 | https://betterclip-docs.pages.dev |
 
-其它分支用于预览部署。自定义域名可稍后绑定。
+### 本机直接上传
+
+```powershell
+npm run pages:deploy
+```
+
+### 更新记录如何进站
+
+产品仓 `ceastld/CeaQuickerTools` 的 `release-notes/vX.Y.Z.md` 是源。发版后：
+
+1. **GitHub Actions**（产品仓 Release 成功，且已设 `DOCS_REPO_TOKEN`）会把**尚未出现**的版本插入 `docs/changelog.md` 并 push
+2. 本机也可：`npm run sync-changelog`（读旁边 `quicker-workspace/clip/main/release-notes`）
+
+已有 changelog 条目**不会被覆盖**（便于手工改写）。功能说明页仍需按 DESIGN / UI 人工维护。
+
+GitHub Secrets（本仓）：
+
+| Secret | 用途 |
+|--------|------|
+| `CLOUDFLARE_API_TOKEN` | Pages 部署（权限：Account → Cloudflare Pages → Edit） |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 账户 ID |
+| `CLIP_REPO_TOKEN` | 可选；仅当要从本仓 workflow 拉取私有产品仓 release-notes |
 
 ## 目录
 

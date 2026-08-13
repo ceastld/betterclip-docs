@@ -1,0 +1,73 @@
+name: Sync changelog
+
+on:
+  repository_dispatch:
+    types: [clip-release]
+  workflow_dispatch:
+    inputs:
+      min_series:
+        description: "Include versions >= this series (e.g. 0.30)"
+        required: false
+        default: "0.30"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-changelog
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout docs
+        uses: actions/checkout@v4
+
+      - name: Checkout CeaQuickerTools release-notes
+        if: ${{ secrets.CLIP_REPO_TOKEN != '' }}
+        uses: actions/checkout@v4
+        with:
+          repository: ceastld/CeaQuickerTools
+          token: ${{ secrets.CLIP_REPO_TOKEN }}
+          path: .cache/CeaQuickerTools
+          sparse-checkout: release-notes
+          sparse-checkout-cone-mode: true
+
+      - name: Setup Node.js
+        if: ${{ secrets.CLIP_REPO_TOKEN != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Sync changelog
+        if: ${{ secrets.CLIP_REPO_TOKEN != '' }}
+        env:
+          MIN_SERIES: ${{ github.event.inputs.min_series || '0.30' }}
+        run: |
+          node scripts/sync-changelog.mjs \
+            --notes-dir .cache/CeaQuickerTools/release-notes \
+            --changelog docs/changelog.md \
+            --min-series "$MIN_SERIES"
+
+      - name: Commit if changed
+        if: ${{ secrets.CLIP_REPO_TOKEN != '' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/changelog.md
+          if git diff --cached --quiet; then
+            echo "No changelog changes."
+            exit 0
+          fi
+          git commit -m "docs(changelog): sync from CeaQuickerTools release-notes"
+          git push
+
+      - name: Skip (missing CLIP_REPO_TOKEN)
+        if: ${{ secrets.CLIP_REPO_TOKEN == '' }}
+        run: |
+          echo "CLIP_REPO_TOKEN is not set."
+          echo "Preferred path: CeaQuickerTools Release workflow pushes changelog (secret DOCS_REPO_TOKEN)."
+          echo "This workflow is a fallback when the docs repo should pull private release-notes."
