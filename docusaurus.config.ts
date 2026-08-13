@@ -7,6 +7,15 @@ const config: Config = {
   title: 'BetterClip',
   tagline: 'Windows 剪贴板管理器使用说明与更新记录',
   favicon: 'img/favicon.ico',
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'apple-touch-icon',
+        href: '/img/apple-touch-icon.png',
+      },
+    },
+  ],
 
   future: {
     v4: true,
@@ -56,7 +65,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/apple-touch-icon.png',
     colorMode: {
       respectPrefersColorScheme: true,
     },
@@ -64,7 +73,7 @@ const config: Config = {
       title: 'BetterClip',
       logo: {
         alt: 'BetterClip',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
       items: [
         {
@@ -86,40 +95,21 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
+      style: 'light',
       links: [
+        {label: '简介', to: '/'},
+        {label: '功能介绍', to: '/features'},
+        {label: '更新记录', to: '/changelog'},
         {
-          title: '文档',
-          items: [
-            {
-              label: '简介',
-              to: '/',
-            },
-            {
-              label: '功能介绍',
-              to: '/features',
-            },
-            {
-              label: '更新记录',
-              to: '/changelog',
-            },
-          ],
-        },
-        {
-          title: '更多',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/ceastld/betterclip-docs',
-            },
-          ],
+          label: 'GitHub',
+          href: 'https://github.com/ceastld/betterclip-docs',
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} BetterClip. Built with Docusaurus.`,
+      copyright: `© ${new Date().getFullYear()} BetterClip`,
     },
     prism: {
       theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      darkTheme: prismThemes.vsDark,
     },
   } satisfies Preset.ThemeConfig,
 };
