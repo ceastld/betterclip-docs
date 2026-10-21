@@ -1,0 +1,26 @@
+{
+  "docsSidebar": [
+    "index",
+    "usage",
+    "features",
+    "install",
+    {
+      "type": "category",
+      "label": "快捷键和设置",
+      "collapsed": false,
+      "items": [
+        "hotkeys"
+      ]
+    },
+    "faq",
+    "changelog",
+    {
+      "type": "category",
+      "label": "历史存档",
+      "collapsed": true,
+      "items": [
+        "legacy-changelog"
+      ]
+    }
+  ]
+}

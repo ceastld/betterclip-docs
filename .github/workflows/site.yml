@@ -1,0 +1,100 @@
+name: Sync user docs and deploy
+
+# Source of truth: ceastld/CeaQuickerTools main → docs/user/*.md (private repo).
+# This workflow regenerates docs/ from it, commits the result to main
+# (which triggers Cloudflare Workers Builds), and optionally uploads build/
+# to the Cloudflare Pages project "betterclip-docs".
+#
+# Secrets (repo → Settings → Secrets and variables → Actions):
+#   CLIP_REPO_TOKEN        fine-grained PAT, repository ceastld/CeaQuickerTools only,
+#                          permission "Contents: Read-only". Without it the sync step is skipped.
+#   CLOUDFLARE_API_TOKEN   optional; token with "Account → Cloudflare Pages → Edit".
+#   CLOUDFLARE_ACCOUNT_ID  optional; Cloudflare account id (needed with the token above).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "17,47 * * * *"
+  repository_dispatch:
+    types: [user-docs-updated, clip-release]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: site
+  cancel-in-progress: false
+
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLIP_REPO_TOKEN: ${{ secrets.CLIP_REPO_TOKEN }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Checkout site
+        uses: actions/checkout@v4
+
+      - name: Checkout CeaQuickerTools docs/user
+        if: env.CLIP_REPO_TOKEN != ''
+        uses: actions/checkout@v4
+        with:
+          repository: ceastld/CeaQuickerTools
+          ref: main
+          token: ${{ secrets.CLIP_REPO_TOKEN }}
+          path: .cache/CeaQuickerTools
+          sparse-checkout: docs/user
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Sync docs from docs/user
+        id: sync
+        run: |
+          if [ -z "$CLIP_REPO_TOKEN" ]; then
+            echo "CLIP_REPO_TOKEN is not set; using docs/ as committed."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          node scripts/sync-user-docs.mjs --src .cache/CeaQuickerTools/docs/user
+          git add -A docs sidebars.generated.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit regenerated docs
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs: sync from CeaQuickerTools docs/user"
+          git push
+
+      - name: Build
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch' || steps.sync.outputs.changed == 'true'
+        id: build
+        run: |
+          npm ci
+          npm run build
+          echo "built=true" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy to Cloudflare Pages (betterclip-docs)
+        if: steps.build.outputs.built == 'true' && env.CLOUDFLARE_API_TOKEN != ''
+        run: npx wrangler pages deploy build --project-name betterclip-docs --branch main --commit-dirty=true
+
+      - name: Note
+        if: steps.build.outputs.built == 'true' && env.CLOUDFLARE_API_TOKEN == ''
+        run: |
+          echo "No CLOUDFLARE_API_TOKEN: Pages upload skipped."
+          echo "Cloudflare Workers Builds (Git integration) still deploys main to the betterclip-docs Worker."

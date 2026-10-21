@@ -4,8 +4,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 import type {PluginOptions as LocalSearchOptions} from '@easyops-cn/docusaurus-search-local';
 
 const config: Config = {
-  title: 'BetterClip',
-  tagline: 'Windows 剪贴板管理器使用说明与更新记录',
+  title: 'Cea 剪贴板',
+  tagline: 'eaclip（ClipHost）Windows 剪贴板管理工具使用文档',
   favicon: 'img/favicon.ico',
   headTags: [
     {
@@ -21,13 +21,19 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://betterclip-docs.pages.dev',
+  url: 'https://betterclip-docs.liud0519.workers.dev',
   baseUrl: '/',
 
   organizationName: 'ceastld',
   projectName: 'betterclip-docs',
 
   onBrokenLinks: 'throw',
+
+  // docs/*.md are generated from the product repo's docs/user (plain Markdown, not MDX).
+  markdown: {
+    format: 'detect',
+    hooks: {onBrokenMarkdownLinks: 'throw'},
+  },
 
   i18n: {
     defaultLocale: 'zh-Hans',
@@ -54,7 +60,6 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           routeBasePath: '/',
-          editUrl: 'https://github.com/ceastld/betterclip-docs/tree/main/',
         },
         blog: false,
         theme: {
@@ -70,9 +75,9 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'BetterClip',
+      title: 'Cea 剪贴板',
       logo: {
-        alt: 'BetterClip',
+        alt: 'Cea 剪贴板',
         src: 'img/logo.png',
       },
       items: [
@@ -84,12 +89,17 @@ const config: Config = {
         },
         {
           to: '/changelog',
-          label: '更新记录',
+          label: '更新日志',
           position: 'left',
         },
         {
-          href: 'https://github.com/ceastld/betterclip-docs',
-          label: 'GitHub',
+          href: 'https://github.com/ceastld/eaclip/releases/latest',
+          label: '下载',
+          position: 'right',
+        },
+        {
+          href: 'https://github.com/QuickerHub/cea-action-issues/issues',
+          label: '反馈',
           position: 'right',
         },
       ],
@@ -97,16 +107,14 @@ const config: Config = {
     footer: {
       style: 'light',
       links: [
-        {label: '简介', to: '/'},
-        {label: '快速开始', to: '/getting-started'},
-        {label: '功能总览', to: '/features'},
-        {label: '更新记录', to: '/changelog'},
-        {
-          label: 'GitHub',
-          href: 'https://github.com/ceastld/betterclip-docs',
-        },
+        {label: '使用说明', to: '/usage'},
+        {label: '安装和配置', to: '/install'},
+        {label: '常见问题', to: '/faq'},
+        {label: '更新日志', to: '/changelog'},
+        {label: '下载', href: 'https://github.com/ceastld/eaclip/releases/latest'},
+        {label: '问题反馈', href: 'https://github.com/QuickerHub/cea-action-issues/issues'},
       ],
-      copyright: `© ${new Date().getFullYear()} BetterClip`,
+      copyright: `© ${new Date().getFullYear()} Cea 剪贴板（eaclip）`,
     },
     prism: {
       theme: prismThemes.github,

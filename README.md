@@ -1,90 +1,55 @@
-# BetterClip 文档站
+# Cea 剪贴板文档站
 
-BetterClip（Windows 剪贴板管理器）的用户文档，使用 [Docusaurus](https://docusaurus.io/) 生成静态站点。
+Cea 剪贴板（eaclip / ClipHost，Rust + GPUI）的用户文档站，使用 [Docusaurus](https://docusaurus.io/) 生成。
 
-**文档网站：** https://betterclip-docs.pages.dev/
+- 文档网站：https://betterclip-docs.liud0519.workers.dev/ （Cloudflare Workers，push `main` 自动部署）
+- Cloudflare Pages 项目 `betterclip-docs`：https://betterclip-docs.pages.dev/ （需配置 `CLOUDFLARE_API_TOKEN` 后由 Actions 上传）
+- 下载：[ceastld/eaclip Releases](https://github.com/ceastld/eaclip/releases/latest)
 
-- GitHub：https://github.com/ceastld/betterclip-docs
+## 内容来源
 
-产品源码在 [ceastld/CeaQuickerTools](https://github.com/ceastld/CeaQuickerTools)；本仓只放面向最终用户的 Markdown。
+`docs/` 里的页面**全部自动生成**，唯一来源是产品仓 `ceastld/CeaQuickerTools` main 分支的 `docs/user/`。
+不要直接改 `docs/*.md`，改产品仓的 `docs/user/` 即可。
 
-## 安装
+| docs/user | 站点页面 |
+| --- | --- |
+| README.md | `/`（简介） |
+| usage.md | `/usage` 使用说明 |
+| features.md | `/features` 功能清单 |
+| install.md | `/install` 安装和配置 |
+| hotkeys.md、settings.md | `/hotkeys`、`/settings`（「快捷键和设置」分组） |
+| faq.md | `/faq` 常见问题 |
+| known-issues.md | `/known-issues` 已知问题 |
+| CHANGELOG.md | `/changelog` 更新日志 |
+| 其它新增 .md | 自动加入侧栏（更新日志之前） |
+
+`legacy/legacy-changelog.md` 是 .NET 时代 BetterClip 0.30.x 的手工存档，原样复制到「历史存档」。
+
+`scripts/sync-user-docs.mjs` 负责：映射文件名与侧栏顺序、改写相对链接、去掉 `> TODO（…）` 内部备注、生成 front matter 和 `sidebars.generated.json`，并在发现 token、本机路径、内网 IP 等疑似私有内容时拒绝生成。
+
+## 自动更新
+
+`.github/workflows/site.yml`：
+
+- 触发：push `main`、手动、每 30 分钟定时、`repository_dispatch`（`user-docs-updated` / `clip-release`）。
+- 有 `CLIP_REPO_TOKEN` 时，sparse checkout 产品仓 `docs/user`，重新生成 `docs/`；有变化就提交到 `main`，Cloudflare Workers Builds 随之重建部署。
+- 有 `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` 时，同时把 `build/` 上传到 Pages 项目 `betterclip-docs`。
+
+| Secret | 用途 |
+| --- | --- |
+| `CLIP_REPO_TOKEN` | 细粒度 PAT：仅 `ceastld/CeaQuickerTools`，Contents 只读 |
+| `CLOUDFLARE_API_TOKEN` | 可选：Account → Cloudflare Pages → Edit |
+| `CLOUDFLARE_ACCOUNT_ID` | 可选：Cloudflare 账户 ID |
+
+## 本地命令
 
 ```powershell
 npm ci
-```
-
-## 本地开发
-
-```powershell
+npm run sync-docs        # 读取 ../CeaQuickerTools/docs/user
 npm run start -- --host 127.0.0.1 --port 3000 --no-open
-```
-
-浏览器打开 http://127.0.0.1:3000/
-
-## 构建
-
-```powershell
 npm run build
+npm run workers:deploy   # 手动部署 Worker（需 wrangler 登录）
+npm run pages:deploy     # 手动上传 Pages（需 Pages 权限）
 ```
 
-产物在 `build/`。
-
-## 发布（Cloudflare Pages）
-
-本站对外地址是 Cloudflare Pages：https://betterclip-docs.pages.dev/ 。推送 `main` 后由 Cloudflare 构建发布。
-
-| 项 | 值 |
-|----|-----|
-| 框架 | Docusaurus |
-| 构建命令 | `npm run build` |
-| 静态资源目录 | `build`（`wrangler.jsonc` → `assets.directory`） |
-| 生产分支 | `main` |
-| Node | 22 |
-
-### 本机直接上传
-
-```powershell
-npm run pages:deploy
-```
-
-（脚本名历史遗留，实际执行 `wrangler deploy`。）
-
-### Cloudflare 控制台 Build 设置（Workers Builds）
-
-若 Git 集成构建失败，请确认：
-
-| 项 | 建议值 |
-|----|--------|
-| Build command | `npm run build` |
-| Deploy command | `npx wrangler deploy` |
-| Root directory | `/`（空） |
-| Node version | `22` |
-### 更新记录如何进站
-
-产品仓 `ceastld/CeaQuickerTools` 的 `release-notes/vX.Y.Z.md` 是源。发版后：
-
-1. **GitHub Actions**（产品仓 Release 成功，且已设 `DOCS_REPO_TOKEN`）会把**尚未出现**的版本插入 `docs/changelog.md` 并 push
-2. 本机也可：`npm run sync-changelog`（读旁边 `quicker-workspace/clip/main/release-notes`）
-
-已有 changelog 条目**不会被覆盖**（便于手工改写）。功能说明页仍需按 DESIGN / UI 人工维护。
-
-GitHub Secrets（本仓）：
-
-| Secret | 用途 |
-|--------|------|
-| `CLOUDFLARE_API_TOKEN` | Pages 部署（权限：Account → Cloudflare Pages → Edit） |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 账户 ID |
-| `CLIP_REPO_TOKEN` | 可选；仅当要从本仓 workflow 拉取私有产品仓 release-notes |
-
-## 目录
-
-- `docs/`：用户可见文档（简介、功能介绍、更新记录）
-- `src/`：站点样式与主题覆盖
-- `static/`：静态资源
-
-## 文档写作
-
-面向最终用户：可见行为、步骤、限制。不要把内部类名、协议或启动流细节当主线。
-
-发版 changelog 仍以产品仓 `clip/main/release-notes/` 为源；上站时人工把用户可见条目改写进 `docs/changelog.md`。
+其它位置的 docs/user：`node scripts/sync-user-docs.mjs --src <路径>/docs/user`；`--check` 只检查是否需要更新。
