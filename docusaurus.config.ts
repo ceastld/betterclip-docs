@@ -93,6 +93,10 @@ const config: Config = {
           position: 'left',
         },
         {
+          type: 'search',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/ceastld/eaclip/releases/latest',
           label: '下载',
           position: 'right',
