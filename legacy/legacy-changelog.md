@@ -7,8 +7,10 @@ description: BetterClip .NET 版 0.30.x 的历史更新摘要
 
 # 旧版更新记录（0.30.x）
 
-:::note 历史存档
+:::note[历史存档]
+
 本页是 .NET 时代 BetterClip 0.30.x 的更新摘要，仅作存档。当前产品是 eaclip / ClipHost（Rust + GPUI），请看 [更新日志](./changelog.md)。
+
 :::
 
 
