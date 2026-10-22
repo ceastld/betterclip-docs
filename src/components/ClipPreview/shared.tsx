@@ -79,7 +79,7 @@ export const SAMPLE_CLIPS: SampleItem[] = [
     id: '2',
     index: 2,
     source: 'Code',
-    text: 'https://betterclip-docs.pages.dev/',
+    text: 'https://clip.alinko.cc/',
     kind: '文本',
     category: 'text',
   },
