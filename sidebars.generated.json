@@ -9,10 +9,12 @@
       "label": "快捷键和设置",
       "collapsed": false,
       "items": [
-        "hotkeys"
+        "hotkeys",
+        "settings"
       ]
     },
     "faq",
+    "known-issues",
     "changelog",
     {
       "type": "category",
