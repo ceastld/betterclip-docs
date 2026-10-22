@@ -21,7 +21,7 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://betterclip-docs.liud0519.workers.dev',
+  url: 'https://clip.alinko.cc',
   baseUrl: '/',
 
   organizationName: 'ceastld',

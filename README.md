@@ -2,7 +2,7 @@
 
 Cea 剪贴板（eaclip / ClipHost，Rust + GPUI）的用户文档站，使用 [Docusaurus](https://docusaurus.io/) 生成。
 
-- 文档网站：https://betterclip-docs.liud0519.workers.dev/ （Cloudflare Workers，push `main` 自动部署）
+- 文档网站：https://clip.alinko.cc/ （Cloudflare Workers，push `main` 自动部署）
 - Cloudflare Pages 项目 `betterclip-docs`：https://betterclip-docs.pages.dev/ （需配置 `CLOUDFLARE_API_TOKEN` 后由 Actions 上传）
 - 下载：[ceastld/eaclip Releases](https://github.com/ceastld/eaclip/releases/latest)
 
