@@ -3,13 +3,13 @@ id: "hotkeys"
 title: "快捷键"
 sidebar_label: "快捷键"
 sidebar_position: 5
-description: "下文 \"  \" 指主键盘 Esc 下方的反引号键（Windows 键名 Oem3）。本页按当前源码核对；没有列出的按键就不要假定存在。2026-10-22 补回的历史列表 Ctrl+A、无焦点 Ctrl+C / Ctrl+P 以及 Enter 多选修复属于开发中改动，尚未正式发布。"
+description: "下文 \"  \" 指主键盘 Esc 下方的反引号键（Windows 键名 Oem3）。本页按当前源码核对；没有列出的按键就不要假定存在。0.32.0 补齐历史列表 Ctrl+A、无焦点 Ctrl+C / Ctrl+P 及 Enter 多选顺序粘贴。"
 ---
 <!-- 本页由 scripts/sync-user-docs.mjs 从产品仓 docs/user 自动生成，请勿直接修改。 -->
 
 # 快捷键
 
-下文 "`` ` ``" 指主键盘 Esc 下方的反引号键（Windows 键名 `Oem3`）。本页按当前源码核对；**没有列出的按键就不要假定存在**。2026-10-22 补回的历史列表 `Ctrl+A`、无焦点 `Ctrl+C` / `Ctrl+P` 以及 Enter 多选修复属于开发中改动，尚未正式发布。
+下文 "`` ` ``" 指主键盘 Esc 下方的反引号键（Windows 键名 `Oem3`）。本页按当前源码核对；**没有列出的按键就不要假定存在**。0.32.0 补齐历史列表 `Ctrl+A`、无焦点 `Ctrl+C` / `Ctrl+P` 及 Enter 多选顺序粘贴。
 
 ## 全局快捷键（默认值）
 
@@ -102,7 +102,7 @@ description: "下文 \"  \" 指主键盘 Esc 下方的反引号键（Windows 键
 - `M` 打开右键菜单——请直接右键条目。
 - 列表里的 `Ctrl` + `Space` 切换单行选中。
 
-完整缺口盘点及优先级见 [快捷键核查记录](../../host-tauri/docs/list-shortcuts-audit.md)。这些建议不表示已经提供或确定了新绑定。
+尚未提供的绑定请通过 [反馈仓库](https://github.com/QuickerHub/cea-action-issues/issues) 提交建议；未列出的按键不表示已经提供。
 
 ## 鼠标操作
 
