@@ -155,6 +155,8 @@ description: "按软件设置页整理：选项名称与软件内一致，\"默�
 
 书签统一通过 OmniTrigger Browser 读取。打开超级菜单的「书签」，连接器不可用或没有浏览器连接时，点击「安装 OmniTrigger Browser 扩展」打开官方安装指南。书签齿轮面板也提供「扩展安装指南」。安装由用户在浏览器中完成。[官方安装指南](https://github.com/ceastld/omnitrigger-browser#下载与插件安装)
 
+书签行优先显示浏览器缓存中的网站图标，缺少缓存或当前扩展版本尚未支持时显示通用书签图标。读取图标使用所选浏览器配置，无需访问书签网站。
+
 已通过 OmniTrigger 安装并启动连接器时，ClipHost 会复用其连接。独立安装时，先解压并加载浏览器扩展，再从 Windows 连接器包运行 `.\installer\install.ps1 -ExtensionId <扩展 ID>`，随后运行 `& "$env:LOCALAPPDATA\OmniTriggerBrowser\omnitrigger-browser.exe" serve`。
 
 只有一个配置在线时直接读取。有多个时，在「书签」齿轮面板选择一个。保存的配置离线时，菜单提示检查该配置。升级后，旧 Quicker 配置与自定义 Bookmarks 文件路径不再影响来源选择。
